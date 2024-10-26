@@ -27,8 +27,8 @@ public class GameField {
         this.field[x][y] = symbol;
     }
 
-    public String[][] getField() {
-        return this.field;
+    public boolean checkEmptyField(int x, int y) {
+        return Objects.equals(field[x][y], " ");
     }
 
     public void printCurrentField(){
@@ -87,5 +87,9 @@ public class GameField {
 
     public boolean checkEqualDiagonals() {
         return false;
+    }
+
+    public String[][] getField() {
+        return this.field;
     }
 }
