@@ -2,20 +2,20 @@ import java.util.Objects;
 
 public class GameField {
 
-    private final int FIELD_LENGTH = 3;
-    private final int FIELD_WIDTH = 3;
     private final String[][] hintField;
 
     private final String[][] field;
 
     public GameField() {
-        this.field = new String[3][3];
+        int FIELD_X = 3;
+        int FIELD_Y = 3;
+        this.field = new String[FIELD_X][FIELD_Y];
         for (int i = 0; i < field.length ; i++) {
             for (int j = 0; j < field[0].length; j++) {
                 field[i][j] = " ";
             }
         }
-        this.hintField = new String[3][3];
+        this.hintField = new String[FIELD_X][FIELD_Y];
         for (int i = 0; i < hintField.length; i++) {
             for (int j = 0; j < hintField[1].length; j++) {
                 hintField[i][j] = i+1 + ":" + String.valueOf(j+1);
