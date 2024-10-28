@@ -18,7 +18,7 @@ public class GameField {
         this.hintField = new String[FIELD_X][FIELD_Y];
         for (int i = 0; i < hintField.length; i++) {
             for (int j = 0; j < hintField[1].length; j++) {
-                hintField[i][j] = i+1 + ":" + String.valueOf(j+1);
+                hintField[i][j] = i + ":" + String.valueOf(j);
             }
         }
     }
@@ -61,31 +61,47 @@ public class GameField {
         System.out.println();
     }
 
-    public boolean checkEqualRows() {
-        for (int i = 0; i < field.length; i++) {
-            if (    !Objects.equals(field[i][0], " ") &&
-                    Objects.equals(field[i][0], field[i][1]) &&
-                    Objects.equals(field[i][1], field[i][2])    ) {
-                System.out.println(field[i][0] + " = " + field[i][1] + " = " + field[i][2]);
+    public boolean checkWinForSymbol(String s) {
+        return checkEqualRows(s) || checkEqualColumns(s) || checkEqualDiagonals(s);
+    }
+
+    private boolean checkEqualRows(String s) {
+        for (String[] line : field) {
+            if (!Objects.equals(line[0], " ") &&
+                    Objects.equals(line[0], s) &&
+                    Objects.equals(line[0], line[1]) &&
+                    Objects.equals(line[1], line[2])) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean checkEqualColumns(){
-        for (int i = 0; i < field.length; i++) {
-            if (    !Objects.equals(field[0][i], " ") &&
-                    Objects.equals(field[0][i], field[1][i]) &&
-                    Objects.equals(field[1][i], field[2][i])    ) {
-                System.out.println(field[0][i] + " = " + field[1][i] + " = " + field[2][i]);
+    public boolean checkEqualColumns(String s){
+        for (String[] line: field) {
+            if (    !Objects.equals(line[0], " ") &&
+                    Objects.equals(line[0], s) &&
+                    Objects.equals(line[0], line[1]) &&
+                    Objects.equals(line[1], line[2])    ) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean checkEqualDiagonals() {
+    public boolean checkEqualDiagonals(String s) {
+        if ((!Objects.equals(field[0][0], " ") &&
+            Objects.equals(field[0][0], s) &&
+            Objects.equals(field[0][0], field[1][1]) &&
+            Objects.equals(field[1][1], field[2][2]))
+            ||
+            (!Objects.equals(field[0][2], " ") &&
+            Objects.equals(field[0][2], s) &&
+            Objects.equals(field[0][2], field[1][1]) &&
+            Objects.equals(field[1][1], field[2][0]))
+        ) {
+            return true;
+        }
         return false;
     }
 

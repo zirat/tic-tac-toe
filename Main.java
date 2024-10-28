@@ -1,7 +1,15 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Objects;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
+
+/*
+ * TODO
+ *  1. Fix game crash when all field are taken and there is no winner
+ *
+ */
 
 public class Main {
     public static String [] playersCoordinates;
@@ -14,7 +22,7 @@ public class Main {
 
     public static void game(Game game) {
         GameField gameField = new GameField();
-        int exitCode = 2;
+        int exitCode = 0;
         gameField.printHintField();
         // while (!game.gameOver(gameField)) {
         while (exitCode != -1) {
@@ -38,22 +46,24 @@ public class Main {
 
                 // wait 1 second to imitate computer's thinking of next step
                 TimeUnit.SECONDS.sleep(1);
-                // set computer's symbol O on position random(x), random(y) except the already taken positions
-                // first option
-                // try random x y, until checkEmptyField() returns true and then set symbol on position
-                // not implemented
 
-                // second option
-                // compute empty positions and choose right x y
-
+                // compute next computer step depending on already taken positions
                 int [] computedCoordinates = game.computeNextTurn(gameField);
+                // computer's next turn/step
                 gameField.setFieldPosition(computedCoordinates[0], computedCoordinates[1], "O");
                 gameField.printCurrentField();
-                System.out.println(gameField.checkEqualRows());
+
+                // check if gameOver
+                if (Objects.equals(game.gameOver(gameField), "X")) {
+                    System.out.println("You win! Go dance!");
+                    exitCode = -1;
+                } else if (Objects.equals(game.gameOver(gameField), "O")) {
+                    System.out.println("You lose, Andrey Kan! Go cry to mommy, you silly 4ck!");
+                    exitCode = -1;
+                }
             } catch (IOException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            exitCode--;
         }
     }
 }

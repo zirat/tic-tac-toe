@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class Game {
     GameField gameField;
 
@@ -5,9 +9,18 @@ public class Game {
         this.gameField = gameField;
     }
 
-
-    public boolean gameOver(GameField gameField) {
-        return gameField.checkEqualRows() || gameField.checkEqualColumns() || gameField.checkEqualDiagonals();
+    /*
+    * TODO
+    *  1. Refactor dis $hit
+    * */
+    public String gameOver(GameField gameField) {
+        if (gameField.checkWinForSymbol("X")) {
+            return "X";
+        } else if (gameField.checkWinForSymbol("O")) {
+            return "O";
+        } else {
+            return " ";
+        }
     }
 
     public boolean checkPlayerAnswer (String [] playerAnswer) {
@@ -22,16 +35,21 @@ public class Game {
 
     public int[] computeNextTurn(GameField gameField) {
         String [][] field = gameField.getField();
-        int [] nextTurn = new int[2];
+        List <Integer> freeXCoordinates = new ArrayList<>();
+        List <Integer> freeYCoordinates = new ArrayList<>();
+        Random random = new Random();
         for (int i = 0; i < field.length; i++) {
             for (int j = 0; j < field[i].length; j++) {
                 if (gameField.checkEmptyField(i, j)) {
-                    nextTurn[0] = i;
-                    nextTurn[1] = j;
-                    return nextTurn;
+                    freeXCoordinates.add(i);
+                    freeYCoordinates.add(j);
                 }
             }
         }
-        return nextTurn;
+        /*
+        * TODO
+        *  1. Refactor - use pairs of coordinates, not different lists*/
+        int randomPair = random.nextInt(freeXCoordinates.size());
+        return new int[]{freeXCoordinates.get(randomPair), freeYCoordinates.get(randomPair)};
     }
 }
